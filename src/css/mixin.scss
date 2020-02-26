@@ -1,0 +1,10 @@
+@mixin collum($left, $right) {
+  position: relative;
+  padding-left: $left;
+  padding-right: $right;
+  width: 100%;
+}
+@mixin flex($percent) {
+  flex: 0 0 $percent;
+  max-width: $percent;
+}
