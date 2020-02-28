@@ -103,7 +103,6 @@ const database = {
     { size: "L", check: false },
     { size: "XL", check: false },
     { size: "XXL", check: false },
-
   ]
 }
 

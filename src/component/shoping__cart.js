@@ -10,7 +10,6 @@ const ShopCart = (props) => {
     document.getElementsByClassName("shopping__cart")[0].style.visibility = "hidden";
     document.getElementsByClassName("shopping__cart")[0].style.display = "none";
     document.getElementsByClassName("cancel__cart")[0].style.display = "none";
-
   }
 
   const sumMoney = (data) => {
@@ -58,28 +57,8 @@ const ShopCart = (props) => {
                     e.preventDefault();
                     Setitem(() => data.splice(index, 1))
                   }}
-                    onMouseOver={(e) => {
-                      e.preventDefault();
-                      document.getElementsByClassName("cart__item")[index].style.backgroundColor = "#0c0b10"
-                      document.getElementsByClassName("cart__item")[index].style.opacity  = "0.5"
-                      document.getElementsByClassName("cart__name")[index].style.textDecoration = "line-through"
-                      document.getElementsByClassName("cart__size")[index].style.textDecoration = "line-through"
-                      document.getElementsByClassName("cart__quantity")[index].style.textDecoration = "line-through"
-                      document.getElementsByClassName("cart__price")[index].style.textDecoration = "line-through"
-
-
-                    }}
-                    onMouseOut={(e) => {
-                      e.preventDefault();
-                      document.getElementsByClassName("cart__item")[index].style.backgroundColor = "#1b1720"
-                      document.getElementsByClassName("cart__item")[index].style.opacity  = "1"
-                      document.getElementsByClassName("cart__name")[index].style.textDecoration = "none"
-                      document.getElementsByClassName("cart__size")[index].style.textDecoration = "none"
-                      document.getElementsByClassName("cart__quantity")[index].style.textDecoration = "none"
-                      document.getElementsByClassName("cart__price")[index].style.textDecoration = "none"
-
-                    }}
-                  >
+                  onMouseOver={(e) => mouseOver(e, index)}
+                  onMouseOut={(e) => mouseOut(e, index)}>
                     <i className="fa fa-times" />
                   </a>
                 </div>
@@ -107,3 +86,27 @@ const ShopCart = (props) => {
 
 export default ShopCart
 
+
+
+const mouseOver = (e, index) => {
+  e.preventDefault();
+  document.getElementsByClassName("cart__item")[index].style.backgroundColor = "#0c0b10"
+  document.getElementsByClassName("cart__item")[index].style.opacity = "0.5"
+  document.getElementsByClassName("cart__name")[index].style.textDecoration = "line-through"
+  document.getElementsByClassName("cart__size")[index].style.textDecoration = "line-through"
+  document.getElementsByClassName("cart__quantity")[index].style.textDecoration = "line-through"
+  document.getElementsByClassName("cart__price")[index].style.textDecoration = "line-through"
+}
+
+const mouseOut = (e, index) => {
+  {
+    e.preventDefault();
+    document.getElementsByClassName("cart__item")[index].style.backgroundColor = "#1b1720"
+    document.getElementsByClassName("cart__item")[index].style.opacity = "1"
+    document.getElementsByClassName("cart__name")[index].style.textDecoration = "none"
+    document.getElementsByClassName("cart__size")[index].style.textDecoration = "none"
+    document.getElementsByClassName("cart__quantity")[index].style.textDecoration = "none"
+    document.getElementsByClassName("cart__price")[index].style.textDecoration = "none"
+
+  }
+}

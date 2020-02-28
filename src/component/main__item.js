@@ -17,7 +17,7 @@ const SelectData = (data, sort) => {
 
 const MainItem = (props) => {
 
-  const { items } = props
+  const { items, loading } = props
   const listDroptem = ['Select', 'Highest to lowest', 'Lowest to higest']
   const [listDrop, setListDrop] = useState("Select")
   const [listSelect, setListSelect] = useState(SelectData(items, listDrop))
@@ -34,7 +34,9 @@ const MainItem = (props) => {
           <div className="order__by">
             <p>Order by :</p>
             <DropdownList data={listDroptem} defaultValue="Select" style={{ width: "160px" }}
-              onChange={(values) => setListDrop(values)}
+              onChange={(values) => {
+                setListDrop(values)
+              }}
             />
           </div>
         </div>

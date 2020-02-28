@@ -1,14 +1,26 @@
 import React, { useState, useEffect } from 'react';
 import MainItem from './main__item'
-import database from '../data/data'
-
 
 const MainSec = () => {
 
-  const [data, setData] = useState(database.product)
-  const [size, setSize] = useState(database.size)
-  const [check, setCheck] = useState(checkSize(data, size))
+  useEffect(
+    () => {
+      fetch('http://localhost:3001/product')
+        .then(res => res.json())
+        .then((datas) => {
+          setData(datas)
+        }).catch(err => console.error(err));
 
+      fetch('http://localhost:3001/size')
+        .then(res => res.json())
+        .then((datas) => {
+          setSize(datas)
+        }).catch(err => console.error(err));
+      setSize(checkSize(data, setSize))
+    }, [])
+
+  const [data, setData] = useState(Array)
+  const [size, setSize] = useState(Array)
 
   return (
     <React.Fragment>
@@ -20,35 +32,7 @@ const MainSec = () => {
                 <h4>Sizes:</h4>
               </div>
               <div className="left__size">
-                {
-                  size.map((item, index) => {
-                    if (item.check) {
-                      return (
-                        <a className="-active" href="#" key={index} onClick={(e) => {
-                          e.preventDefault();
-                          item.check = !item.check
-                          setSize([...size])
-                          setCheck(checkSize(data, size))
-                        }}>
-                          <span>{item.size}</span>
-                        </a>
-                      )
-                    }
-                    else {
-                      return (
-                        <a href="#" key={index} onClick={(e) => {
-                          e.preventDefault();
-                          item.check = !item.check
-                          setSize([...size])
-                          setCheck(checkSize(data, size))
-                        }}>
-                          <span>{item.size}</span>
-                        </a>
-                      )
-                    }
-                  }
-                  )
-                }
+                <CheckLink size={size} data={data} setSize={setSize} setCheck={checkSize} />
               </div>
               <div className="left__note">
                 <p>Leave a star on Github if this repository was useful :)</p>
@@ -58,7 +42,7 @@ const MainSec = () => {
         </button>
               </div>
             </div>
-            <MainItem items={check} />
+            <MainItem items={checkSize(data,size)}/>
           </div>
         </div>
       </section>
@@ -69,17 +53,12 @@ const MainSec = () => {
 
 export default MainSec
 
-
-
-
-
-
 const checkSize = (data, size) => {
   let correctData = [];
-  Boolean = false ;
+  Boolean = false;
   for (let i in size) {
     if (size[i].check) {
-      Boolean=true;
+      Boolean = true;
       data.forEach(item => {
         if (item.size === size[i].size) {
           correctData.push(item)
@@ -87,14 +66,42 @@ const checkSize = (data, size) => {
       });
     }
   }
-  if(!Boolean){
-    correctData= data
+  if (!Boolean) {
+    correctData = data
   }
   return correctData
 }
 
 
-
-// if (!size[0].check && !size[1].check && !size[2].check && !size[3].check && !size[4].check && !size[5].check && !size[6].check) {
-//   correctData = data;
-// }
+const CheckLink = (props) => {
+  const { size, setSize, data ,setCheck} = props
+  return (
+    size.map((item, index) => {
+      if (item.check) {
+        return (
+          <a className="-active" href="#" key={index} onClick={(e) => {
+            e.preventDefault();
+            item.check = !item.check
+            setSize([...size])
+            setCheck(data, size)
+          }}>
+            <span>{item.size}</span>
+          </a>
+        )
+      }
+      else {
+        return (
+          <a href="#" key={index} onClick={(e) => {
+            e.preventDefault();
+            item.check = !item.check
+            setSize([...size])
+            setCheck(data, size)
+          }}>
+            <span>{item.size}</span>
+          </a>
+        )
+      }
+    }
+    )
+  )
+}
